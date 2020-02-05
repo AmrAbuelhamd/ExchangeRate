@@ -1,9 +1,9 @@
 package com.blogspot.soyamr.exchangerate.model;
 
 public class Rates {
+
     double RUB;
     double USD;
-    //double eur;
     double JPY;
     double GBP;
     double AUD;

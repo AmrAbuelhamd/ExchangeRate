@@ -4,8 +4,13 @@ public class JsonResponseBody {
     boolean success;
     String date;
     Rates rates;
+    Error error;
 
-    public boolean isSuccess() {
+    public Error getError() {
+        return error;
+    }
+
+    public boolean getSuccess() {
         return success;
     }
 

@@ -123,26 +123,26 @@
             android:layout_marginEnd="2dp"
             android:text="EUR"
             android:textColor="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintEnd_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintBottom_toBottomOf="@+id/eur_rate"
+            app:layout_constraintEnd_toStartOf="@+id/eur_rate"
+            app:layout_constraintTop_toTopOf="@+id/eur_rate" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/eur_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="41dp"
             android:layout_marginBottom="16dp"
-            android:text="75.14"
+            android:text="--"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/usd_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="65.2"
+            android:text="--"
             app:layout_constraintBottom_toBottomOf="@+id/textView3"
             app:layout_constraintStart_toEndOf="@+id/textView3"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
@@ -166,5 +166,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         android:focusable="true" />
+
+    <TextView
+        android:id="@+id/mainlayout_error_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="TextView"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

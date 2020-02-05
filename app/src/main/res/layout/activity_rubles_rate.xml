@@ -17,6 +17,7 @@
 
     <ProgressBar
         android:id="@+id/progressBar2"
+        android:visibility="gone"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:text="asfafsfsaf"
         android:id="@+id/error_message"
         android:visibility="visible"
         android:layout_width="wrap_content"
