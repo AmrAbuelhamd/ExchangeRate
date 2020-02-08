@@ -23,7 +23,7 @@ public class MainActivity extends ViewParent {
 
         controler = new Controler(this);
 
-        controler.getDataFromServer(
+        controler.getDataFromServer("",
                 MAIN_ACTIVITY, findViewById(R.id.mainlayout_error_message), USD, RUB);
     }
 

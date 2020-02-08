@@ -1,25 +1,30 @@
 package com.blogspot.soyamr.exchangerate.model;
 
-import com.blogspot.soyamr.exchangerate.ConsAndUtils;
-
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.*;
+import static com.blogspot.soyamr.exchangerate.ConsAndUtils.convertToRequiredCurrency;
 
 public class MoneyRate {
-    String currencyName;
+    public String currencyName;
+    public int getImageRecourseId;
+    String currencyCode;
 
     //since eur is the base currency in the api i need to make my conversion here
-    double curencyRateWithEURtoday;
-    double curencyRateWithEURyesterday;
-    double curencyRateWithRUByesterday;
-    double curencyRateWithRUBtoday;
+    private double curencyRateWithEURtoday;
+    private double curencyRateWithEURyesterday;
+
+    private double curencyRateWithRUByesterday;
+    private double curencyRateWithRUBtoday;
 
     double convertedRateWithRUBtoday;
-    double convertedRateWithRUByesterday;
+    private double convertedRateWithRUByesterday;
 
     boolean isIncreasing;
 
-    public MoneyRate(String currencyName, double curencyRateWithEURtoday, double curencyRateWithEURyesterday) {
+    public MoneyRate(String currencyCode, String currencyName, int iconeId,
+                     double curencyRateWithEURtoday, double curencyRateWithEURyesterday
+            , double curencyRateWithRUBtoday, double curencyRateWithRUByesterday) {
+        getImageRecourseId = iconeId;
         this.currencyName = currencyName;
+        this.currencyCode = currencyCode;
         this.curencyRateWithEURtoday = curencyRateWithEURtoday;
         this.curencyRateWithEURyesterday = curencyRateWithEURyesterday;
 

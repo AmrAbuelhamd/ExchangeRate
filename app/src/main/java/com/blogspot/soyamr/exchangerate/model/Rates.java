@@ -9,7 +9,7 @@ public class Rates {
     double AUD;
     double EGP;
     double CAD;
-    double CNF;
+//    double CNF;
     double CNY;
     double HKD;
     double NZD;
@@ -51,9 +51,9 @@ public class Rates {
         return CAD;
     }
 
-    public double getCNF() {
-        return CNF;
-    }
+//    public double getCNF() {
+//        return CNF;
+//    }
 
     public double getCNY() {
         return CNY;

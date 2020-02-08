@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.blogspot.soyamr.exchangerate.Controler.Controler;
 import com.blogspot.soyamr.exchangerate.R;
 import com.blogspot.soyamr.exchangerate.model.Rates;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.lang.reflect.Field;
 
@@ -24,9 +25,12 @@ public class RublesRateActivity extends ViewParent {
 
         controler = new Controler(this);
 
+        AndroidThreeTen.init(this);
+
         String[] arrOfCurenciesCode = makeArr();
-        controler.getDataFromServer(RUBLES_RATE_ACTIVITY,
+        controler.getDataFromServer("",RUBLES_RATE_ACTIVITY,
                 findViewById(R.id.error_message), arrOfCurenciesCode);
+
 
     }
 }
