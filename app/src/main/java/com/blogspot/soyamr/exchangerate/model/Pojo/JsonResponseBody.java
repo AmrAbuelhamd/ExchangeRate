@@ -1,4 +1,7 @@
-package com.blogspot.soyamr.exchangerate.model;
+package com.blogspot.soyamr.exchangerate.model.Pojo;
+
+import com.blogspot.soyamr.exchangerate.model.Pojo.Error;
+import com.blogspot.soyamr.exchangerate.model.Pojo.Rates;
 
 public class JsonResponseBody {
     boolean success;

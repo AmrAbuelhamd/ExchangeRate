@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.exchangerate.model;
+package com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blogspot.soyamr.exchangerate.R;
 
 import java.util.List;
-
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.round;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<MoneyRate> mDataset;
@@ -64,11 +62,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.sellingRate.setText(round(mDataset.get(position).convertedRateWithRUBtoday) + "");
-        holder.currencyCode.setText(mDataset.get(position).currencyCode + "");
-        holder.curencyName.setText(mDataset.get(position).currencyName + "");
-        holder.currencyIcone.setImageResource(mDataset.get(position).getImageRecourseId);
-        if (mDataset.get(position).isIncreasing)
+        holder.sellingRate.setText(mDataset.get(position).getConvertedRateToday());
+        holder.currencyCode.setText(mDataset.get(position).getCurrencyCode());
+        holder.curencyName.setText(mDataset.get(position).getCurrencyName()+ "");
+        holder.currencyIcone.setImageResource(mDataset.get(position).getImageRecourseId());
+        if (mDataset.get(position).isIncreasing())
             holder.sellingRatePhoto.setImageResource(R.drawable.up_arrow);
         else
             holder.sellingRatePhoto.setImageResource(R.drawable.down_arrow);

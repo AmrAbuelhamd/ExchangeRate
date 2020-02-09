@@ -3,4 +3,5 @@
     <string name="worldskills_bank">WorldSkills Bank</string>
     <string name="first_button">\ \  Отделения и банкоматы</string>
     <string name="login">ВОЙТИ</string>
+    <string name="nothing_yet">--</string>
 </resources>

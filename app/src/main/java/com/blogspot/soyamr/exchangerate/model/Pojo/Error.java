@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.exchangerate.model;
+package com.blogspot.soyamr.exchangerate.model.Pojo;
 
 public class Error {
     int code;

@@ -4,30 +4,57 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blogspot.soyamr.exchangerate.Controler.Controler;
+import com.blogspot.soyamr.exchangerate.ConstAndUtils;
+import com.blogspot.soyamr.exchangerate.Controller.Controller;
 import com.blogspot.soyamr.exchangerate.R;
+import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
 
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.MAIN_ACTIVITY;
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.RUB;
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.USD;
+import java.util.List;
 
 public class MainActivity extends ViewParent {
-    Controler controler;
+    Controller controller;
     TextView usdRate, eurRate;
-    private TextView errorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controler = new Controler(this);
+        controller = new Controller(this);
+        usdRate = findViewById(R.id.usd_rate);
+        eurRate = findViewById(R.id.eur_rate);
+        //ConstAndUtils.USD, ConstAndUtils.RUB, i could have used these instead but i will fetch all the data
+        controller.FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
 
-        controler.getDataFromServer("",
-                MAIN_ACTIVITY, findViewById(R.id.mainlayout_error_message), USD, RUB);
     }
 
-    public void showCourse(View view) {
-        controler.onShowRublesRateActivityButtonClicked();
+    /*
+    shows error messages from server in case the failure of server
+     */
+    public void showError(String errorMessage) {
+        super.showError(errorMessage);
     }
+
+    /*
+    opens rubles rate activity
+     */
+    public void onClickListener(View view) {
+        controller.onShowRublesRateActivityButtonClicked();
+    }
+
+    /*
+    shows the eur and usd rates on the main screen buttons pri server asnwer
+     */
+    @Override
+    public void populateData(List<MoneyRate> data) {
+
+        usdRate.setText(data.get(0).getConvertedRateToday());
+        eurRate.setText(data.get(1).getConvertedRateToday());
+    }
+
+    @Override
+    public void populateDateTextView(String date) {
+        super.populateDateTextView(date);
+    }
+
 }

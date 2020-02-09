@@ -1,36 +1,77 @@
 package com.blogspot.soyamr.exchangerate.View;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.blogspot.soyamr.exchangerate.Controler.Controler;
+import com.blogspot.soyamr.exchangerate.ConstAndUtils;
+import com.blogspot.soyamr.exchangerate.Controller.Controller;
 import com.blogspot.soyamr.exchangerate.R;
-import com.blogspot.soyamr.exchangerate.model.Rates;
+import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
+import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MyAdapter;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.RUBLES_RATE_ACTIVITY;
-import static com.blogspot.soyamr.exchangerate.ConsAndUtils.makeArr;
+
 
 public class RublesRateActivity extends ViewParent {
+    RecyclerView recyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    ProgressBar progressBar;
+    List<MoneyRate> dataList = new ArrayList<>();
 
-    Controler controler;
+    Controller controller;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rubles_rate);
 
-        controler = new Controler(this);
-
+        controller = new Controller(this);
         AndroidThreeTen.init(this);
+        progressBar = findViewById(R.id.progressBar);
+        controller.getDataForYesterday(ConstAndUtils.CURRENCIES_ARRAY );
 
-        String[] arrOfCurenciesCode = makeArr();
-        controler.getDataFromServer("",RUBLES_RATE_ACTIVITY,
-                findViewById(R.id.error_message), arrOfCurenciesCode);
+        initializeTheRecyclerView();
 
+    }
 
+    private void initializeTheRecyclerView() {
+        recyclerView = findViewById(R.id.my_recycler_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new MyAdapter(dataList);
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        super.showError(errorMessage);
+    }
+
+    @Override
+    public void populateDateTextView(String date) {
+        super.populateDateTextView(date);
+    }
+
+    @Override
+    public void populateData(List<MoneyRate> dataList) {
+        progressBar.setVisibility(View.GONE);
+        this.dataList.clear();
+        this.dataList.addAll(dataList);
+        mAdapter.notifyDataSetChanged();
     }
 }

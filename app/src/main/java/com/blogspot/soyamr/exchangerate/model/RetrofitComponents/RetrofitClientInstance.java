@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.exchangerate.model;
+package com.blogspot.soyamr.exchangerate.model.RetrofitComponents;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

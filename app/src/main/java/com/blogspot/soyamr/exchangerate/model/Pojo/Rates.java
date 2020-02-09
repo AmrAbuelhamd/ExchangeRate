@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.exchangerate.model;
+package com.blogspot.soyamr.exchangerate.model.Pojo;
 
 public class Rates {
 
@@ -9,7 +9,6 @@ public class Rates {
     double AUD;
     double EGP;
     double CAD;
-//    double CNF;
     double CNY;
     double HKD;
     double NZD;
@@ -22,6 +21,16 @@ public class Rates {
     double ZAR;
     double TRY;
     double BRL;
+    double COP;
+    double CVE;
+
+    public double getCOP() {
+        return COP;
+    }
+
+    public double getCVE() {
+        return CVE;
+    }
 
     public double getRUB() {
         return RUB;
@@ -50,10 +59,6 @@ public class Rates {
     public double getCAD() {
         return CAD;
     }
-
-//    public double getCNF() {
-//        return CNF;
-//    }
 
     public double getCNY() {
         return CNY;
