@@ -4,4 +4,9 @@
     <string name="first_button">\ \  Отделения и банкоматы</string>
     <string name="login">ВОЙТИ</string>
     <string name="nothing_yet">--</string>
+    <string name="atms">Отделения и банкоматы</string>
+    <string name="workinghours">Часы работы</string>
+    <string name="working">Работает</string>
+    <string name="notWorking">Hе Работает</string>
+
 </resources>

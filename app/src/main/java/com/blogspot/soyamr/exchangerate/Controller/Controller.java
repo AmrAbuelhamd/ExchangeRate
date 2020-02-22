@@ -1,11 +1,14 @@
 package com.blogspot.soyamr.exchangerate.Controller;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.blogspot.soyamr.exchangerate.ConstAndUtils;
 import com.blogspot.soyamr.exchangerate.R;
+import com.blogspot.soyamr.exchangerate.View.BranchesAndATMsActivity;
 import com.blogspot.soyamr.exchangerate.View.RublesRateActivity;
 import com.blogspot.soyamr.exchangerate.View.ViewParent;
+import com.blogspot.soyamr.exchangerate.model.Pojo.ATM;
 import com.blogspot.soyamr.exchangerate.model.Pojo.JsonResponseBody;
 import com.blogspot.soyamr.exchangerate.model.Pojo.Rates;
 import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
@@ -38,7 +41,7 @@ public class Controller {
 
         String currencies = concatenateSymbolsIntoSingleArray(symbols);
 
-        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance().create(GetApiData.class);
+        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(ConstAndUtils.RATESURL).create(GetApiData.class);
         Call<JsonResponseBody> call;
         if (callFrom == ConstAndUtils.YESTERDAY)
             call = getApiData.getHistoricalData(date, currencies);
@@ -66,12 +69,12 @@ public class Controller {
                     List<MoneyRate> dataList = new ArrayList<>();
                     dataList.add(new MoneyRate(todayRates.getUSD(), todayRates.getRUB()));
                     dataList.add(new MoneyRate(todayRates.getRUB()));
-                    view.populateData(dataList);
+                    view.updateRecyclerViewData(dataList);
                 } else if (callFrom == ConstAndUtils.YESTERDAY) {
                     view.populateDateTextView(todayDate);
                     yesterdayRates = jsonResponseBody.getRates();
                     List<MoneyRate> myDataset = makeListOfcurrentAndyesterdaysData();
-                    view.populateData(myDataset);
+                    view.updateRecyclerViewData(myDataset);
                 }
             }
 
@@ -90,15 +93,8 @@ public class Controller {
     }
 
 
-    /*
-       opens RUBLES_RATE_ACTIVITY
-        */
-    public void onShowRublesRateActivityButtonClicked() {
-        Intent intent = new Intent(view, RublesRateActivity.class);
-        view.startActivity(intent);
-    }
-
     private List<MoneyRate> makeListOfcurrentAndyesterdaysData() {
+        //todo handle case when there's no internet and @{RUBrateToday} is still null;
         MoneyRate.RUBrateToday = todayRates.getRUB();
         MoneyRate.RUBrateYesterday = yesterdayRates.getRUB();
         List<MoneyRate> listOfData = new ArrayList<>();
@@ -146,5 +142,38 @@ public class Controller {
         listOfData.add(new MoneyRate(ConstAndUtils.USD, ConstAndUtils.EcuadorianUSDName, R.drawable.usd_ecuador,
                 todayRates.getUSD(), yesterdayRates.getUSD()));
         return listOfData;
+    }
+
+    public void onShowAtmsActivityButtonClicked() {
+        Intent intent = new Intent(view, BranchesAndATMsActivity.class);
+        view.startActivity(intent);
+    }
+
+    /*
+       opens RUBLES_RATE_ACTIVITY
+        */
+    public void onShowRublesRateActivityButtonClicked() {
+        Intent intent = new Intent(view, RublesRateActivity.class);
+        view.startActivity(intent);
+    }
+
+    public void getATMdata() {
+        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(ConstAndUtils.ATMSURL)
+                .create(GetApiData.class);
+        Call<ArrayList<ATM>> call;
+
+        call = getApiData.getBankomat();
+
+        call.enqueue(new Callback<ArrayList<ATM>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ATM>> call, Response<ArrayList<ATM>> response) {
+                view.updateRecyclerViewData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ATM>> call, Throwable t) {
+                Log.e("wtf",t.toString());
+            }
+        });
     }
 }

@@ -9,6 +9,8 @@ import com.blogspot.soyamr.exchangerate.Controller.Controller;
 import com.blogspot.soyamr.exchangerate.R;
 import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MainActivity extends ViewParent {
@@ -39,15 +41,21 @@ public class MainActivity extends ViewParent {
     opens rubles rate activity
      */
     public void onClickListener(View view) {
-        controller.onShowRublesRateActivityButtonClicked();
+        if (view.getId() == R.id.atms)
+            controller.onShowAtmsActivityButtonClicked();
+
+        else
+            controller.onShowRublesRateActivityButtonClicked();
+
     }
 
     /*
     shows the eur and usd rates on the main screen buttons pri server asnwer
      */
     @Override
-    public void populateData(List<MoneyRate> data) {
+    public <T> void updateRecyclerViewData(List<T> dataList) {
 
+        ArrayList<MoneyRate> data = (ArrayList) dataList;
         usdRate.setText(data.get(0).getConvertedRateToday());
         eurRate.setText(data.get(1).getConvertedRateToday());
     }
@@ -56,5 +64,7 @@ public class MainActivity extends ViewParent {
     public void populateDateTextView(String date) {
         super.populateDateTextView(date);
     }
+
+
 
 }

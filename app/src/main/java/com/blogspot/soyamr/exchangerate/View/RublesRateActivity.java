@@ -16,6 +16,8 @@ import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MyAdapter;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -68,10 +70,11 @@ public class RublesRateActivity extends ViewParent {
     }
 
     @Override
-    public void populateData(List<MoneyRate> dataList) {
+    public <T> void updateRecyclerViewData(List<T> dataList) {
+
         progressBar.setVisibility(View.GONE);
         this.dataList.clear();
-        this.dataList.addAll(dataList);
+        this.dataList.addAll((Collection<? extends MoneyRate>) dataList);
         mAdapter.notifyDataSetChanged();
     }
 }

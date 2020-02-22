@@ -1,8 +1,15 @@
 package com.blogspot.soyamr.exchangerate;
 
-import android.util.Log;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ConstAndUtils {
+
+    public static final int RATESURL = 0;
+    public static final int ATMSURL = 1;
     public static final int TODAY = 0;
     public static final int YESTERDAY = 1;
     public static String[] CURRENCIES_ARRAY = {"USD","EUR","JPY","GBP","AUD","EGP","CAD","CNF"
@@ -79,6 +86,23 @@ public class ConstAndUtils {
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+
+    public static boolean isWorkingNow(String startTime, String endTime) {
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        String currentTime = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(new Date());
+        Date sta=null;
+        Date end=null;
+        Date curr=null;
+        try {
+            sta = dateFormat.parse(startTime);
+            end = dateFormat.parse(endTime);
+            curr = dateFormat.parse(currentTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return (curr.after(sta)&&curr.before(end));
+
     }
 
 }

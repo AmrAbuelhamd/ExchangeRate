@@ -6,5 +6,9 @@
     <color name="buttonBackGroundBlue">#1C42B0</color>
     <color name="buttonBackGroundWhite">#FFFFFF</color>
     <color name="textBackGroundRose">#9B59B6</color>
+    <color name="workingColor">#5DD49F</color>
+    <color name="isntWorkingColor">#EA1111</color>
+    <color name="textColor">#000000</color>
+
 
 </resources>
