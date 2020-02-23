@@ -23,5 +23,5 @@ public abstract class ViewParent extends AppCompatActivity {
         dateTextView.setText(date);
     }
 
-    public abstract void populateData(List<MoneyRate> dataList);
+    public abstract <T>void updateRecyclerViewData(List<T> dataList);
 }
