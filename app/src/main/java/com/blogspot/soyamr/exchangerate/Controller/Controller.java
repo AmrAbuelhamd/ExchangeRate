@@ -36,7 +36,9 @@ public class Controller {
         this.view = view;
     }
 
-
+    /*
+    this method is responsible for getting the data from server to the main screen and to the rates screen
+     */
     public void FetchRates(int callFrom, String date, String... symbols) {
 
         String currencies = concatenateSymbolsIntoSingleArray(symbols);
@@ -86,15 +88,17 @@ public class Controller {
     }
 
 
-    public void getDataForYesterday(String... symboles) {
+    public void getDataForYesterday(String... symbols) {
         LocalDate today = LocalDate.now();
-        LocalDate yesterday = today.minusDays(2);
-        FetchRates(ConstAndUtils.YESTERDAY, yesterday.toString(), symboles);
+        LocalDate yesterday = today.minusDays(1);
+        FetchRates(ConstAndUtils.YESTERDAY, yesterday.toString(), symbols);
     }
 
 
     private List<MoneyRate> makeListOfcurrentAndyesterdaysData() {
-        //todo handle case when there's no internet and @{RUBrateToday} is still null;
+
+        if(todayRates.getRUB()==0.0)
+            FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
         MoneyRate.RUBrateToday = todayRates.getRUB();
         MoneyRate.RUBrateYesterday = yesterdayRates.getRUB();
         List<MoneyRate> listOfData = new ArrayList<>();
@@ -172,7 +176,7 @@ public class Controller {
 
             @Override
             public void onFailure(Call<ArrayList<ATM>> call, Throwable t) {
-                Log.e("wtf",t.toString());
+                view.showError("error: " + t.toString());
             }
         });
     }

@@ -2,6 +2,7 @@ package com.blogspot.soyamr.exchangerate.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blogspot.soyamr.exchangerate.Controller.Controller
@@ -51,7 +52,13 @@ class BranchesAndATMsActivity : ViewParent() {
         }
     }
 
+    override fun showError(errorMessage: String?) {
+        progressBar.visibility = View.GONE
+        super.showError(errorMessage)
+    }
+
     override fun <T : Any?> updateRecyclerViewData(dataList: MutableList<T>?) {
+        progressBar.visibility = View.GONE
         myDataSet.clear()
         myDataSet.addAll(dataList as Collection<ATM>)
         viewAdapter.notifyDataSetChanged()

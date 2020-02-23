@@ -8,7 +8,6 @@ import com.blogspot.soyamr.exchangerate.ConstAndUtils
 import com.blogspot.soyamr.exchangerate.Controller.MapSetUp
 import com.blogspot.soyamr.exchangerate.R
 import com.blogspot.soyamr.exchangerate.model.Pojo.ATM
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.atm_list_item_row.view.*
 

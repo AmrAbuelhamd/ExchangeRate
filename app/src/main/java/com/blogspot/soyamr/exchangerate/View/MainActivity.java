@@ -25,14 +25,20 @@ public class MainActivity extends ViewParent {
         controller = new Controller(this);
         usdRate = findViewById(R.id.usd_rate);
         eurRate = findViewById(R.id.eur_rate);
-        //ConstAndUtils.USD, ConstAndUtils.RUB, i could have used these instead but i will fetch all the data
-        controller.FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //ConstAndUtils.USD, ConstAndUtils.RUB, i could have used these instead but i will fetch all the data
+        controller.FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
+    }
+
     /*
-    shows error messages from server in case the failure of server
-     */
+        shows error messages from server in case the failure of server
+         */
     public void showError(String errorMessage) {
         super.showError(errorMessage);
     }

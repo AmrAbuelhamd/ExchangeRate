@@ -61,6 +61,7 @@ public class RublesRateActivity extends ViewParent {
 
     @Override
     public void showError(String errorMessage) {
+        progressBar.setVisibility(View.GONE);
         super.showError(errorMessage);
     }
 

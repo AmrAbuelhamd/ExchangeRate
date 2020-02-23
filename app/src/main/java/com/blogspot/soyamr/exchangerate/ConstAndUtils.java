@@ -1,5 +1,7 @@
 package com.blogspot.soyamr.exchangerate;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,8 +91,8 @@ public class ConstAndUtils {
     }
 
     public static boolean isWorkingNow(String startTime, String endTime) {
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
-        String currentTime = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(new Date());
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         Date sta=null;
         Date end=null;
         Date curr=null;
@@ -101,6 +103,7 @@ public class ConstAndUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        Log.e("time",startTime+" : "+currentTime+" : "+endTime);
         return (curr.after(sta)&&curr.before(end));
 
     }
