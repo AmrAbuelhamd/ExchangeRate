@@ -1,17 +1,22 @@
 package com.blogspot.soyamr.exchangerate.View;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.blogspot.soyamr.exchangerate.ConstAndUtils;
+import com.blogspot.soyamr.exchangerate.CallFrom;
 import com.blogspot.soyamr.exchangerate.Controller.Controller;
+import com.blogspot.soyamr.exchangerate.Currency;
 import com.blogspot.soyamr.exchangerate.R;
 import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends ViewParent {
     Controller controller;
@@ -26,14 +31,14 @@ public class MainActivity extends ViewParent {
         usdRate = findViewById(R.id.usd_rate);
         eurRate = findViewById(R.id.eur_rate);
 
-
+        requestLocationPermission();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //ConstAndUtils.USD, ConstAndUtils.RUB, i could have used these instead but i will fetch all the data
-        controller.FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
+        controller.FetchRates(CallFrom.TODAY,"", Currency.getArray());
     }
 
     /*
@@ -54,7 +59,6 @@ public class MainActivity extends ViewParent {
             controller.onShowRublesRateActivityButtonClicked();
 
     }
-
     /*
     shows the eur and usd rates on the main screen buttons pri server asnwer
      */
@@ -65,7 +69,6 @@ public class MainActivity extends ViewParent {
         usdRate.setText(data.get(0).getConvertedRateToday());
         eurRate.setText(data.get(1).getConvertedRateToday());
     }
-
     @Override
     public void populateDateTextView(String date) {
         super.populateDateTextView(date);
@@ -73,4 +76,27 @@ public class MainActivity extends ViewParent {
 
 
 
+    //region ask the user to garant the location once he opens the app
+
+    private final int REQUEST_LOCATION_PERMISSION = 1;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
+    public void requestLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if(EasyPermissions.hasPermissions(this, perms)) {
+//            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", REQUEST_LOCATION_PERMISSION, perms);
+        }
+    }
+    //endregion
 }

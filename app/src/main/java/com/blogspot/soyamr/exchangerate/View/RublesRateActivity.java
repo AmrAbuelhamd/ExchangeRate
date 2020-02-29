@@ -8,8 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blogspot.soyamr.exchangerate.ConstAndUtils;
 import com.blogspot.soyamr.exchangerate.Controller.Controller;
+import com.blogspot.soyamr.exchangerate.Currency;
 import com.blogspot.soyamr.exchangerate.R;
 import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MoneyRate;
 import com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent.MyAdapter;
@@ -17,7 +17,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -39,7 +38,7 @@ public class RublesRateActivity extends ViewParent {
         controller = new Controller(this);
         AndroidThreeTen.init(this);
         progressBar = findViewById(R.id.progressBar);
-        controller.getDataForYesterday(ConstAndUtils.CURRENCIES_ARRAY );
+        controller.getDataForYesterday(Currency.getArray());
 
         initializeTheRecyclerView();
 

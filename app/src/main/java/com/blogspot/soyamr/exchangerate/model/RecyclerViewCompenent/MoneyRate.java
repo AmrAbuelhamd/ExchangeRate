@@ -1,7 +1,9 @@
 package com.blogspot.soyamr.exchangerate.model.RecyclerViewCompenent;
 
-import static com.blogspot.soyamr.exchangerate.ConstAndUtils.convertToRequiredCurrency;
-import static com.blogspot.soyamr.exchangerate.ConstAndUtils.round;
+import com.blogspot.soyamr.exchangerate.Currency;
+
+import static com.blogspot.soyamr.exchangerate.Utils.convertToRequiredCurrency;
+import static com.blogspot.soyamr.exchangerate.Utils.round;
 
 //since eur is the base currency in the api i need to make my conversion here
 public class MoneyRate {
@@ -15,12 +17,12 @@ public class MoneyRate {
     private boolean isIncreasing;
     private double convertedRateToday;
 
-    public MoneyRate(String currencyCode, String currencyName, int iconId,
+    public MoneyRate(Currency currency,
                      double rateToday, double rateYesterday) {
 
-        this.imageRecourseId = iconId;
-        this.currencyName = currencyName;
-        this.currencyCode = currencyCode;
+        this.imageRecourseId = currency.getPhotoId();
+        this.currencyName = currency.getName();
+        this.currencyCode = currency.toString();
 
 
         convertedRateToday = convertToRequiredCurrency(

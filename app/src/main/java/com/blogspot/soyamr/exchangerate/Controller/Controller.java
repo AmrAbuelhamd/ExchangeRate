@@ -1,10 +1,9 @@
 package com.blogspot.soyamr.exchangerate.Controller;
 
 import android.content.Intent;
-import android.util.Log;
 
-import com.blogspot.soyamr.exchangerate.ConstAndUtils;
-import com.blogspot.soyamr.exchangerate.R;
+import com.blogspot.soyamr.exchangerate.CallFrom;
+import com.blogspot.soyamr.exchangerate.Currency;
 import com.blogspot.soyamr.exchangerate.View.BranchesAndATMsActivity;
 import com.blogspot.soyamr.exchangerate.View.RublesRateActivity;
 import com.blogspot.soyamr.exchangerate.View.ViewParent;
@@ -24,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.blogspot.soyamr.exchangerate.ConstAndUtils.concatenateSymbolsIntoSingleArray;
+import static com.blogspot.soyamr.exchangerate.Utils.concatenateSymbolsIntoSingleArray;
 
 public class Controller {
     private ViewParent view;
@@ -39,13 +38,14 @@ public class Controller {
     /*
     this method is responsible for getting the data from server to the main screen and to the rates screen
      */
-    public void FetchRates(int callFrom, String date, String... symbols) {
+    public void FetchRates(CallFrom callFrom, String date, String... symbols) {
 
         String currencies = concatenateSymbolsIntoSingleArray(symbols);
 
-        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(ConstAndUtils.RATESURL).create(GetApiData.class);
+        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(CallFrom.RATES_URL)
+                .create(GetApiData.class);
         Call<JsonResponseBody> call;
-        if (callFrom == ConstAndUtils.YESTERDAY)
+        if (callFrom == CallFrom.YESTERDAY)
             call = getApiData.getHistoricalData(date, currencies);
         else
             call = getApiData.getCurrencyData(currencies);
@@ -64,7 +64,7 @@ public class Controller {
                     return;
                 }
 
-                if (callFrom == ConstAndUtils.TODAY) {
+                if (callFrom == CallFrom.TODAY) {
                     todayDate = jsonResponseBody.getDate();
                     todayRates = jsonResponseBody.getRates();
                     view.populateDateTextView(todayDate);
@@ -72,7 +72,7 @@ public class Controller {
                     dataList.add(new MoneyRate(todayRates.getUSD(), todayRates.getRUB()));
                     dataList.add(new MoneyRate(todayRates.getRUB()));
                     view.updateRecyclerViewData(dataList);
-                } else if (callFrom == ConstAndUtils.YESTERDAY) {
+                } else if (callFrom == CallFrom.YESTERDAY) {
                     view.populateDateTextView(todayDate);
                     yesterdayRates = jsonResponseBody.getRates();
                     List<MoneyRate> myDataset = makeListOfcurrentAndyesterdaysData();
@@ -91,60 +91,39 @@ public class Controller {
     public void getDataForYesterday(String... symbols) {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
-        FetchRates(ConstAndUtils.YESTERDAY, yesterday.toString(), symbols);
+        FetchRates(CallFrom.YESTERDAY, yesterday.toString(), symbols);
     }
 
-
+    //sorry for the messy function but it's considered an improvement over what it was before.
     private List<MoneyRate> makeListOfcurrentAndyesterdaysData() {
 
         if(todayRates.getRUB()==0.0)
-            FetchRates(ConstAndUtils.TODAY,"", ConstAndUtils.CURRENCIES_ARRAY);
+            FetchRates(CallFrom.TODAY, "", Currency.getArray());
         MoneyRate.RUBrateToday = todayRates.getRUB();
         MoneyRate.RUBrateYesterday = yesterdayRates.getRUB();
         List<MoneyRate> listOfData = new ArrayList<>();
 
-        listOfData.add(new MoneyRate(ConstAndUtils.AUD, ConstAndUtils.AUDname, R.drawable.aud,
-                todayRates.getAUD(), yesterdayRates.getAUD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.BRL, ConstAndUtils.BRLname, R.drawable.brl, todayRates.getBRL(),
-                yesterdayRates.getBRL()));
-        listOfData.add(new MoneyRate(ConstAndUtils.CAD, ConstAndUtils.CADname, R.drawable.cad, todayRates.getCAD(),
-                yesterdayRates.getCAD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.CNY, ConstAndUtils.CNYname, R.drawable.cny, todayRates.getCNY(),
-                yesterdayRates.getCNY()));
-        listOfData.add(new MoneyRate(ConstAndUtils.EGP, ConstAndUtils.EGPname, R.drawable.egp, todayRates.getEGP(),
-                yesterdayRates.getEGP()));
-        listOfData.add(new MoneyRate(ConstAndUtils.GBP, ConstAndUtils.GBPname, R.drawable.gbp, todayRates.getGBP(),
-                yesterdayRates.getGBP()));
-        listOfData.add(new MoneyRate(ConstAndUtils.HKD, ConstAndUtils.HKDname, R.drawable.hkd, todayRates.getHKD(),
-                yesterdayRates.getHKD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.INR, ConstAndUtils.INRname, R.drawable.inr, todayRates.getINR(),
-                yesterdayRates.getINR()));
-        listOfData.add(new MoneyRate(ConstAndUtils.JPY, ConstAndUtils.JPYname, R.drawable.jpy, todayRates.getJPY(),
-                yesterdayRates.getJPY()));
-        listOfData.add(new MoneyRate(ConstAndUtils.KRW, ConstAndUtils.KRWname, R.drawable.krw, todayRates.getKRW(),
-                yesterdayRates.getKRW()));
-        listOfData.add(new MoneyRate(ConstAndUtils.MXN, ConstAndUtils.MXNname, R.drawable.mxn, todayRates.getMXN(),
-                yesterdayRates.getMXN()));
-        listOfData.add(new MoneyRate(ConstAndUtils.NOK, ConstAndUtils.NOKname, R.drawable.nok, todayRates.getNOK(),
-                yesterdayRates.getNOK()));
-        listOfData.add(new MoneyRate(ConstAndUtils.NZD, ConstAndUtils.NZDname, R.drawable.nzd, todayRates.getNZD(),
-                yesterdayRates.getNZD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.SEK, ConstAndUtils.SEKname, R.drawable.sek, todayRates.getSEK(),
-                yesterdayRates.getSEK()));
-        listOfData.add(new MoneyRate(ConstAndUtils.SGD, ConstAndUtils.SGDname, R.drawable.sgd, todayRates.getSGD(),
-                yesterdayRates.getSGD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.TRY, ConstAndUtils.TRYname, R.drawable._try, todayRates.getTRY(),
-                yesterdayRates.getTRY()));
-        listOfData.add(new MoneyRate(ConstAndUtils.USD, ConstAndUtils.USDName, R.drawable.usd, todayRates.getUSD(),
-                yesterdayRates.getUSD()));
-        listOfData.add(new MoneyRate(ConstAndUtils.ZAR, ConstAndUtils.ZARname, R.drawable.zar, todayRates.getZAR(),
-                yesterdayRates.getZAR()));
-        listOfData.add(new MoneyRate(ConstAndUtils.COP, ConstAndUtils.COPName, R.drawable.cop, todayRates.getCOP(),
-                yesterdayRates.getCOP()));
-        listOfData.add(new MoneyRate(ConstAndUtils.CVE, ConstAndUtils.CVEname, R.drawable.cve, todayRates.getCVE(),
-                yesterdayRates.getCVE()));
-        listOfData.add(new MoneyRate(ConstAndUtils.USD, ConstAndUtils.EcuadorianUSDName, R.drawable.usd_ecuador,
-                todayRates.getUSD(), yesterdayRates.getUSD()));
+        listOfData.add(new MoneyRate(Currency.AUD, todayRates.getAUD(), yesterdayRates.getAUD()));
+        listOfData.add(new MoneyRate(Currency.BRL, todayRates.getBRL(), yesterdayRates.getBRL()));
+        listOfData.add(new MoneyRate(Currency.CAD, todayRates.getCAD(), yesterdayRates.getCAD()));
+        listOfData.add(new MoneyRate(Currency.CNY, todayRates.getCNY(), yesterdayRates.getCNY()));
+        listOfData.add(new MoneyRate(Currency.EGP, todayRates.getEGP(), yesterdayRates.getEGP()));
+        listOfData.add(new MoneyRate(Currency.GBP, todayRates.getGBP(), yesterdayRates.getGBP()));
+        listOfData.add(new MoneyRate(Currency.HKD, todayRates.getHKD(), yesterdayRates.getHKD()));
+        listOfData.add(new MoneyRate(Currency.INR, todayRates.getINR(), yesterdayRates.getINR()));
+        listOfData.add(new MoneyRate(Currency.JPY, todayRates.getJPY(), yesterdayRates.getJPY()));
+        listOfData.add(new MoneyRate(Currency.KRW, todayRates.getKRW(), yesterdayRates.getKRW()));
+        listOfData.add(new MoneyRate(Currency.MXN, todayRates.getMXN(), yesterdayRates.getMXN()));
+        listOfData.add(new MoneyRate(Currency.NOK, todayRates.getNOK(), yesterdayRates.getNOK()));
+        listOfData.add(new MoneyRate(Currency.NZD, todayRates.getNZD(), yesterdayRates.getNZD()));
+        listOfData.add(new MoneyRate(Currency.SEK, todayRates.getSEK(), yesterdayRates.getSEK()));
+        listOfData.add(new MoneyRate(Currency.SGD, todayRates.getSGD(), yesterdayRates.getSGD()));
+        listOfData.add(new MoneyRate(Currency.TRY, todayRates.getTRY(), yesterdayRates.getTRY()));
+        listOfData.add(new MoneyRate(Currency.USD, todayRates.getUSD(), yesterdayRates.getUSD()));
+        listOfData.add(new MoneyRate(Currency.ZAR, todayRates.getZAR(), yesterdayRates.getZAR()));
+        listOfData.add(new MoneyRate(Currency.COP, todayRates.getCOP(), yesterdayRates.getCOP()));
+        listOfData.add(new MoneyRate(Currency.CVE, todayRates.getCVE(), yesterdayRates.getCVE()));
+        listOfData.add(new MoneyRate(Currency.ECU, todayRates.getUSD(), yesterdayRates.getUSD()));
         return listOfData;
     }
 
@@ -162,7 +141,7 @@ public class Controller {
     }
 
     public void getATMdata() {
-        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(ConstAndUtils.ATMSURL)
+        GetApiData getApiData = RetrofitClientInstance.getRetrofitInstance(CallFrom.ATMS_URL)
                 .create(GetApiData.class);
         Call<ArrayList<ATM>> call;
 
