@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.blogspot.soyamr.exchangerate.ConstAndUtils
+import com.blogspot.soyamr.exchangerate.Utils
 import com.blogspot.soyamr.exchangerate.Controller.MapSetUp
 import com.blogspot.soyamr.exchangerate.R
 import com.blogspot.soyamr.exchangerate.model.Pojo.ATM
@@ -48,7 +48,7 @@ class AtmsRecyclerViewAdapter(private val myDataset: ArrayList<ATM>, val map: Ma
             view.workingHours.append(" "+atm.hours_start+"-"+atm.hours_end)
             view.address.text = atm.address
             view.type.text = atm.type
-            val isWorking :Boolean = ConstAndUtils.isWorkingNow(atm.hours_start,atm.hours_end)
+            val isWorking :Boolean = Utils.isWorkingNow(atm.hours_start,atm.hours_end)
 
             view.isWorking.text = if(isWorking) view.resources.getString(R.string.working)
             else view.resources.getString(R.string.notWorking)
